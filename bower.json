@@ -1,0 +1,21 @@
+{
+  "name": "node-greenscreen",
+  "description": "GreenScreen image manipulation syste4m",
+  "main": "",
+  "authors": [
+    "fallen90"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

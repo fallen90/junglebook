@@ -1,0 +1,46 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/1.out.png"
+    },
+    {
+      "id": 2,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/2.out.png"
+    },
+    {
+      "id": 3,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/3.out.png"
+    },
+    {
+      "id": 4,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/4.out.png"
+    },
+    {
+      "id": 5,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/5.out.png"
+    },
+    {
+      "id": 6,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/6.out.png"
+    },
+    {
+      "id": 7,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/7.out.png"
+    },
+    {
+      "id": 8,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/8.out.png"
+    },
+    {
+      "id": 9,
+      "file": "/Users/fallen90/Desktop/greenscreen/chromakey/../public/outputs/9.out.png"
+    }
+  ],
+  "folders": [
+    {
+      "id": "0B3zHm_k_51jLWlBUZzVmclJDemc",
+      "name": "day1"
+    }
+  ]
+}

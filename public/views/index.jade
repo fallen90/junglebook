@@ -1,0 +1,22 @@
+doctype html
+head
+  title= title
+  style.
+    #image {
+    width: 400px;
+    height: auto;
+    }
+img#image
+form(method='post', enctype='multipart/form-data', action='/file-upload')
+  input#file(type='file', name='file', accept='image/*', capture='camera')
+  input(type='submit')
+script.
+  document.getElementById("file").onchange = function() {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+  // get loaded data and render thumbnail.
+  document.getElementById("image").src = e.target.result;
+  };
+  // read the image file as a data URL.
+  reader.readAsDataURL(this.files[0]);
+  };
