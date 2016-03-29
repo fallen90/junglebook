@@ -3,15 +3,18 @@ var fs = require('fs'),
     easyimg = require('easyimage'),
     path = require('path'),
     im = require('imagemagick-composite'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    env = process.env;
 
 var fg = __dirname + "/fg.png";
 var bg = __dirname + "/bg.png";
 var mask = __dirname + "/warm.png";
-var tmp = __dirname + "/.tmp/";
-var outputs = __dirname + "/../public/outputs/";
+var tmp = env.OPENSHIFT_DATA_DIR + ".tmp/";
+var outputs = env.OPENSHIFT_DATA_DIR + 'outputs/';
 
-
+if (!fs.existsSync(tmp)){
+    fs.mkdirSync(tmp);
+}
 
 exports.create = function(inf, key, success, failed) {
     console.log('CHROMA', 'Preparing convertion...');
