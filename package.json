@@ -18,7 +18,7 @@
     "pngjs": "^2.2.0"
   },
   "scripts": {
-    "start" "node start.js"
+    "start":"node start.js"
   },
   "main": "start.js",
   "devDependencies": {},
