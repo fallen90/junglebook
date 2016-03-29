@@ -66,7 +66,7 @@ app.post('/file-upload', function(req, res) {
                     file: file
                 });
                 res.end();
-                uploadFile(key);
+                // uploadFile(key);
             }, function(err) {
                 console.log('failed');
             });
