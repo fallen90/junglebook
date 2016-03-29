@@ -84,9 +84,11 @@ app.set('port', env.NODE_PORT || 3000);
 app.set('ip', env.NODE_IP || 'localhost');
 
 
-http.createServer(app).listen(app.get('port'), app.get('ip'), function() {
+var server = http.createServer(app).listen(app.get('port'), app.get('ip'), function() {
     console.log("✔ Express server listening at %s:%d ", app.get('ip'), app.get('port'));
 });
+
+server.timeout = 25000;
 
 var uploadFile = function(key) {
     console.log('Uploading...');
