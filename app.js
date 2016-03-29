@@ -12,8 +12,15 @@ var http = require('http');
 var env = process.env;
 // var upload_dir = __dirname + '/public/uploads/';
 // var output_dir = __dirname + '/public/outputs/';
-var upload_dir = env.OPENSHIFT_DATA_DIR + '/uploads/'
-var output_dir = env.OPENSHIFT_DATA_DIR + '/output/'
+var upload_dir = env.OPENSHIFT_DATA_DIR + 'uploads/'
+var output_dir = env.OPENSHIFT_DATA_DIR + 'outputs/'
+
+if (!fs.existsSync(upload_dir)){
+    fs.mkdirSync(upload_dir);
+}
+if (!fs.existsSync(output_dir)){
+    fs.mkdirSync(output_dir);
+}
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -23,7 +30,7 @@ app.use(busboy());
 
 // app.use(express.static(__dirname + '/public'));
 app.use('/lib', express.static(__dirname + '/public/lib'));
-app.use('/output', express.static(output_dir));
+app.use('/outputs', express.static(output_dir));
 
 app.get('/health', function(req, res) {
     res.writeHead(200);
