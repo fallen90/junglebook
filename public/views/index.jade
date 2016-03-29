@@ -28,7 +28,7 @@ nav.navbar.navbar-default.navbar-fixed-top
   .jumbotron
     img.img-responsive#image
     form(method='post', enctype='multipart/form-data', action='/file-upload')
-      input#file(type='file', name='file', accept='image/*', capture='camera')
+      input#file(type='file', name='file', accept="image/*;capture=camera")
       br
       input.btn.btn-primary(type='submit')
 // /container
