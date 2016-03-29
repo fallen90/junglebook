@@ -42,8 +42,9 @@ script.
   window.jQuery || document.write('<script src="lib/jquery/dist/jquery.min.js"><\\\\/script>')
 script(src='lib/bootstrap/dist/js/bootstrap.min.js')
 script.
+  var exists = +!!"#{exists}";
   if(!exists){
-    setInterval(function(){
+    setTimeout(function(){
       window.location.reload();
     }, 1500);
   }
