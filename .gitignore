@@ -28,7 +28,6 @@ node_modules
 bower_components
 public/lib
 imgs/
-db.json
 # Optional npm cache directory
 .npm
 
