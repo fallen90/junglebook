@@ -64,6 +64,7 @@ app.post('/file-upload', function(req, res) {
         fstream.on('close', function() {
             // res.redirect('back'); //redirect back to main page
             // res.send('file uploaded !');
+            res.redirect('/download?id=' + key);
             chromakey.create(filename, key, function(file) {
                 console.log('file processed', file);
                 db('images').push({
@@ -71,7 +72,7 @@ app.post('/file-upload', function(req, res) {
                     file: file
                 });
                 // res.end();
-                res.redirect('/download?id=' + key);
+                
                 // uploadFile(key);
             }, function(err) {
                 console.log('failed');
