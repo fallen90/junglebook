@@ -15,10 +15,12 @@
     "images": "^2.1.11",
     "jade": "^1.11.0",
     "lowdb": "^0.12.5",
-    "pngjs": "^2.2.0"
+    "pngjs": "^2.2.0",
+    "bower" : "latest"
   },
   "scripts": {
-    "start":"node start.js"
+    "start":"node start.js",
+    "postinstall": "HOME=$OPENSHIFT_REPO_DIR bower install || bower install"
   },
   "main": "start.js",
   "devDependencies": {},
