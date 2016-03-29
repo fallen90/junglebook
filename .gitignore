@@ -27,7 +27,7 @@ build/Release
 node_modules
 bower_components
 public/lib
-imgs/ 
+imgs/
 # Optional npm cache directory
 .npm
 
