@@ -32,17 +32,22 @@ app.use(busboy());
 app.use('/lib', express.static(__dirname + '/public/lib'));
 app.use('/outputs', express.static(output_dir));
 
+
+
+
+//routes
+
 app.get('/health', function(req, res) {
     res.writeHead(200);
     res.end();
 });
 
 app.get('/', function(req, res) {
-    res.render('index', { title: 'Hey' });
+    res.render('index', { title: 'Jungle Book' });
 });
 
-app.get('/download', function(req, res) {
-    res.render('download', { title: 'Hey' });
+app.get('/download', function (req, res) {
+  res.render('download', { title: 'Download Output', id : req.param('id')});
 });
 
 app.post('/file-upload', function(req, res) {
@@ -65,7 +70,8 @@ app.post('/file-upload', function(req, res) {
                     id: key,
                     file: file
                 });
-                res.end();
+                // res.end();
+                res.redirect('/download?id=' + key);
                 // uploadFile(key);
             }, function(err) {
                 console.log('failed');

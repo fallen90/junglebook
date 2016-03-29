@@ -24,16 +24,13 @@ nav.navbar.navbar-default.navbar-fixed-top
           a(href='#about') About
         li
           a(href='#contact') Contact
-.container
+.container(style='margin-top:80px;')
   .jumbotron
-    h1 Navbar example
-    p
-      | This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.
-    p To see the difference between static and fixed top navbars, just scroll.
-    p
-      a.btn.btn-lg.btn-primary(href='#navbar', role='button') View navbar docs »
+    img.img-responsive(src='/outputs/#{id}.out.png')
+    br
+    a.btn.btn-block.btn-lg.btn-primary(download, href='/outputs/#{id}.out.png', role='button') Download Image »
 // /container
 script(src='lib/jquery/dist/jquery.min.js')
 script.
-  window.jQuery || document.write('<script src="lib/jquery/dist/jquery.min.js"><\\/script>')
+  window.jQuery || document.write('<script src="lib/jquery/dist/jquery.min.js"><\\\\/script>')
 script(src='lib/bootstrap/dist/js/bootstrap.min.js')
