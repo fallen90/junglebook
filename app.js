@@ -10,8 +10,10 @@ var db = low('db.json', { storage });
 var gdrive = require('./gdrive');
 var http = require('http');
 var env = process.env;
-var upload_dir = __dirname + '/public/uploads/';
-var output_dir = __dirname + '/public/outputs/';
+// var upload_dir = __dirname + '/public/uploads/';
+// var output_dir = __dirname + '/public/outputs/';
+var upload_dir = env.OPENSHIFT_DATA_DIR + '/uploads/'
+var output_dir = env.OPENSHIFT_DATA_DIR + '/output/'
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -21,6 +23,7 @@ app.use(busboy());
 
 // app.use(express.static(__dirname + '/public'));
 app.use('/lib', express.static(__dirname + '/public/lib'));
+app.use('/output', express.static(output_dir));
 
 app.get('/health', function(req, res) {
     res.writeHead(200);
