@@ -7,6 +7,10 @@ head
   meta(name='author', content='')
   title Download
   link(href='lib/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+  style.
+    .gone {
+      display:none;
+    }
 nav.navbar.navbar-default.navbar-fixed-top
   .container
     .navbar-header
@@ -25,12 +29,21 @@ nav.navbar.navbar-default.navbar-fixed-top
         li
           a(href='#contact') Contact
 .container(style='margin-top:80px;')
-  .jumbotron
+  .jumbotron(class=exists ? undefined : "gone")
     img.img-responsive(src='/outputs/#{id}.out.png')
     br
     a.btn.btn-block.btn-lg.btn-primary(download, href='/outputs/#{id}.out.png', role='button') Download Image »
-// /container
+  .jumbotron(class=exists ? "gone" : undefined)
+    h3 Your file is being processed. Please wait.
+    cite This page will automatically refresh
+
 script(src='lib/jquery/dist/jquery.min.js')
 script.
   window.jQuery || document.write('<script src="lib/jquery/dist/jquery.min.js"><\\\\/script>')
 script(src='lib/bootstrap/dist/js/bootstrap.min.js')
+script.
+  if(!exists){
+    setInterval(function(){
+      window.location.reload();
+    }, 1500);
+  }

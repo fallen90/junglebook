@@ -15,10 +15,10 @@ var env = process.env;
 var upload_dir = env.OPENSHIFT_DATA_DIR + 'uploads/'
 var output_dir = env.OPENSHIFT_DATA_DIR + 'outputs/'
 
-if (!fs.existsSync(upload_dir)){
+if (!fs.existsSync(upload_dir)) {
     fs.mkdirSync(upload_dir);
 }
-if (!fs.existsSync(output_dir)){
+if (!fs.existsSync(output_dir)) {
     fs.mkdirSync(output_dir);
 }
 
@@ -46,8 +46,18 @@ app.get('/', function(req, res) {
     res.render('index', { title: 'Jungle Book' });
 });
 
-app.get('/download', function (req, res) {
-  res.render('download', { title: 'Download Output', id : req.param('id')});
+app.get('/download', function(req, res) {
+    var id = req.param('id'); //deprecated
+
+    if (typeof id != 'undefined') {
+        if (!fs.existsSync(output_dir + id + ".out.png")) {
+            res.render('download', { title: 'Download Output', id: req.param('id'), exists: false });
+        } else {
+            res.render('download', { title: 'Download Output', id: req.param('id'), exists: true });
+        }
+    }
+
+
 });
 
 app.post('/file-upload', function(req, res) {
@@ -65,6 +75,7 @@ app.post('/file-upload', function(req, res) {
             // res.redirect('back'); //redirect back to main page
             // res.send('file uploaded !');
             res.redirect('/download?id=' + key);
+
             chromakey.create(filename, key, function(file) {
                 console.log('file processed', file);
                 db('images').push({
@@ -72,7 +83,7 @@ app.post('/file-upload', function(req, res) {
                     file: file
                 });
                 // res.end();
-                
+
                 // uploadFile(key);
             }, function(err) {
                 console.log('failed');
