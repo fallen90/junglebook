@@ -4,15 +4,14 @@ var fs = require('fs'),
     path = require('path'),
     im = require('imagemagick-composite'),
     crypto = require('crypto'),
-    env = process.env;
+    config = require('./config'),
+    fg = config.currentConfig.fg,
+    bg = config.currentConfig.bg,
+    mask = config.currentConfig.mask,
+    tmp = config.currentConfig.tmp,
+    outputs = config.currentConfig.outputs;
 
-var fg = __dirname + "/fg.png";
-var bg = __dirname + "/bg.png";
-var mask = __dirname + "/warm.png";
-var tmp = env.OPENSHIFT_DATA_DIR + ".tmp/";
-var outputs = env.OPENSHIFT_DATA_DIR + 'outputs/';
-
-if (!fs.existsSync(tmp)){
+if (!fs.existsSync(tmp)) {
     fs.mkdirSync(tmp);
 }
 
@@ -129,7 +128,7 @@ var operate = function(pixel, alphaMap) {
     return pixel;
 };
 
-var cleanup = function(key){
+var cleanup = function(key) {
     console.log('CHROMA', 'Starting cleanup...');
     fs.unlinkSync(tmp + key + '.butas.png');
     fs.unlinkSync(tmp + key + '.inter.png');

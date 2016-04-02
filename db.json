@@ -1,5 +1,14 @@
 {
-  "images": [],
+  "images": [
+    {
+      "id": 1,
+      "file": "C:\\Users\\Fallen\\DEsktop\\junglebook\\chromakey/../public/uploads/1.png"
+    },
+    {
+      "id": 2,
+      "file": "C:\\Users\\Fallen\\DEsktop\\junglebook\\chromakey/../public/uploads/2.png"
+    }
+  ],
   "folders": [
     {
       "id": "0B3zHm_k_51jLWlBUZzVmclJDemc",

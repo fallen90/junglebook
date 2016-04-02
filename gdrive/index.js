@@ -1,23 +1,18 @@
-var fs = require('fs');
-var readline = require('readline');
-var google = require('googleapis');
-var googleAuth = require('google-auth-library');
-var drive = google.drive('v3');
-var path = require('path');
-var low = require('lowdb')
-var storage = require('lowdb/file-sync')
-var db = low('db.json', { storage });
-
-var SCOPES = ['https://www.googleapis.com/auth/drive'];
-var TOKEN_DIR = __dirname + '/';
-var TOKEN_PATH = TOKEN_DIR + 'drive-token.json';
-var CLIENTSECRET_PATH = __dirname + "/client_secret.json";
-
-
-// Load client secrets from a local file.
-// var srcFolder = __dirname + "/../imgs/";
-// var srcFolder = __dirname + "/../public/outputs/";
-var srcFolder = process.env.OPENSHIFT_DATA_DIR + 'outputs/'
+var fs = require('fs'),
+    readline = require('readline'),
+    google = require('googleapis'),
+    googleAuth = require('google-auth-library'),
+    drive = google.drive('v3'),
+    path = require('path'),
+    low = require('lowdb'),
+    storage = require('lowdb/file-sync'),
+    db = low('db.json', { storage }),
+    config = require('../chromakey/config'),
+    SCOPES = ['https://www.googleapis.com/auth/drive'],
+    TOKEN_DIR = __dirname + '/',
+    TOKEN_PATH = TOKEN_DIR + 'drive-token.json',
+    CLIENTSECRET_PATH = __dirname + "/client_secret.json",
+    srcFolder = config.currentConfig.outputs;
 
 exports.uploadFile = function(filename, destFile, folderId, success, failed) {
 
@@ -64,8 +59,8 @@ exports.createFolder = function(foldername, success, failed) {
                     } else {
                         console.log('Folder Id: ', file.id);
                         db('folders').push({
-                            id : file.id,
-                            name : foldername
+                            id: file.id,
+                            name: foldername
                         });
                         success(file.id, file);
                     }
@@ -145,7 +140,7 @@ function uploadFile(auth, src, dest, success, failed, folderId) {
         resource: {
             name: path.basename(dest),
             mimeType: 'image/png',
-            parents : [folderId]
+            parents: [folderId]
         },
         media: {
             mimeType: 'image/png',
