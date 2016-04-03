@@ -19,10 +19,13 @@
         "bower": "latest"
     },
     "scripts": {
-        "start": "node start.js"
+        "start": "node start.js",
+        "postinstall": "HOME=$OPENSHIFT_REPO_DIR bower install || bower install"
     },
     "main": "start.js",
-    "devDependencies": {},
+    "devDependencies": {
+        "bower": "latest"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/fallen90/node-greenscreen.git"

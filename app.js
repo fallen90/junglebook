@@ -14,8 +14,6 @@ var express = require('express'),
     upload_dir = config.currentConfig.uploads,
     output_dir = config.currentConfig.outputs;
 
-console.log(upload_dir, output_dir);
-
 if (!fs.existsSync(upload_dir)) {
     fs.mkdirSync(upload_dir);
 }
@@ -50,9 +48,9 @@ app.get('/download', function(req, res) {
     var id = req.param('id'); //deprecated
     if (typeof id != 'undefined') {
         if (!fs.existsSync(output_dir + id + ".out.png")) {
-            res.render('download', { title: 'Download Output', id: req.param('id'), exists: false });
+            res.render('download', { title: 'Download Output', id: id, exists: false });
         } else {
-            res.render('download', { title: 'Download Output', id: req.param('id'), exists: true });
+            res.render('download', { title: 'Download Output', id: id, exists: true });
         }
     }
 });

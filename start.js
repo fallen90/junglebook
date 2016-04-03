@@ -3,9 +3,8 @@ const cluster = require('cluster'),
         'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
     ],
-    production = process.env.NODE_ENV == 'production';
-
-var stopping = false;
+    production = process.env.NODE_ENV == 'production',
+    stopping = false;
 
 cluster.on('disconnect', function(worker) {
     try {
@@ -16,17 +15,21 @@ cluster.on('disconnect', function(worker) {
         } else {
             process.exit(1);
         }
-    } catch(e){
-      console.log('Exception Handled', e);
+    } catch (e) {
+        console.log('Exception Handled', e);
     }
 });
 
 if (cluster.isMaster) {
-    const workerCount = process.env.NODE_CLUSTER_WORKERS || 2;
+    var workerCount = require('os').cpus().length;
+
+    console.log('Master cluster setting up ' + workerCount + ' workers...');
     console.log(`Starting ${workerCount} workers...`);
+
     for (var i = 0; i < workerCount; i++) {
         cluster.fork();
     }
+
     if (production) {
         stopSignals.forEach(function(signal) {
             process.on(signal, function() {
@@ -39,6 +42,21 @@ if (cluster.isMaster) {
             });
         });
     }
+
+    cluster.on('online', function(worker) {
+        try {
+            console.log('Worker ' + worker.process.pid + ' is online');
+        } catch (e) {
+            console.log('Exception Handled', e);
+        }
+    });
+
+    cluster.on('exit', function(worker, code, signal) {
+        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+        console.log('Starting a new worker');
+        cluster.fork();
+    });
+    
 } else {
     require('./app.js');
 }
