@@ -8,7 +8,7 @@ var done_bench = 0;
 
 var init_uploader = function() {
     $(function() {
-        $('#clicktest').on('touchstart',function() {
+        $('#clicktest').on('touchstart', function() {
             $('#status').append('<b>Clicked</b><br/>');
         });
         var bar = $('.bar');
@@ -26,9 +26,8 @@ var init_uploader = function() {
                 percent.html(percentVal);
                 initial_bench++;
                 console.log("inital", initial_bench, "done", done_bench);
-                $('#submit').slideUp();
-                $('#fileselect').slideUp();
-                $('.progress').slideDown();
+                $('#step1').slideUp();
+                $('#step2').slideDown();
             },
             uploadProgress: function(event, position, total, percentComplete) {
                 var percentVal = percentComplete + '%';
@@ -37,12 +36,42 @@ var init_uploader = function() {
                 $('.radial-progress').attr('data-progress', percentComplete)
             },
             complete: function(xhr) {
-                status.html(xhr.responseText);
                 initial_bench--;
                 done_bench++;
-
                 console.log("inital", initial_bench, "done", done_bench);
+                $('#step2').slideUp();
+                $('#step3').slideDown();
+                var responsetxt = xhr.responseText;
+                response = JSON.parse(responsetxt);
+                checkImage("/outputs/" + response.download + ".out.png", response.download);
             }
         });
     });
+}
+
+function checkImage(url, key) {
+    var intx = setInterval(function() {
+        if (imageExists(url)) {
+            clearInterval(intx);
+            $('#downloadImage').slideDown();
+            $('#proci').fadeOut();
+            $('#print_num').html(key).show();
+            setTimeout(function() {
+
+                $('#imgdownload').attr('src', url);
+
+            }, 1200);
+        }
+    }, 1200);
+}
+
+function imageExists(image_url) {
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
 }

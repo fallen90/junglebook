@@ -43,11 +43,27 @@
     
     h1 {
         font-size: 18px;
-        color: #8CC152;
+        color: #fff;
+    }
+    #step2, #step3, #print_num {
+        display:none;
+    }
+    [type=file] {
+        color:white;
+    }
+    #downloadImage {
+        display:none;
+    }
+    #imgdownload {
+        width:40%;
+    }
+    #print_num 
+    {
+        background:white;
+        padding:12px;
     }
     </style>
     <script>
-
     </script>
 </head>
 
@@ -109,12 +125,22 @@
             </form>
         </div>
         <div id="step2" class="container">
+            <h1>
+                <b>STEP 2:</b>
+                Upload Image
+            </h1>
             <div class="progress">
                 <div class="percent progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%">
                     40%
                 </div>
             </div>
             <div id="status"></div>
+        </div>
+        <div id="step3" class="container" align="center">
+            <img src="assets/img/loader.gif" id="imgdownload">
+            <p id="proci" style="color:white;">Processing</p>
+            <h2 id="print_num"></h2>
+            <a href="" download class="btn btn-block btn-primary" id="downloadImage">Download Image</a>
         </div>
     </div>
 </body>
