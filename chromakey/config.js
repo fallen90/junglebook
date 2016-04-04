@@ -22,5 +22,5 @@ var config_set = {
 module.exports = {
     openshift: config_set.openshift,
     localhost: config_set.localhost,
-    currentConfig: config_set.openshift
+    currentConfig: config_set.localhost
 };

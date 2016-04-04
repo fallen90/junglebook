@@ -16,6 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "dropzone": "^4.3.0",
+    "fastclick": "^1.0.6",
+    "jquery-form": "^3.46.0"
   }
 }

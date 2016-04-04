@@ -71,19 +71,20 @@ var processFile = function(inf, outf, key, success, failed) {
                 var masked = tmp + key + '.masked.png';
                 var output = outputs + key + '.out.png';
 
-                im.composite(['-geometry', '300x250+350+510', outf, bg, inter],
+                //-limit memory 1mb -limit map 2mb
+                im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', '-geometry', '300x250+350+510', outf, bg, inter],
                     function(err, metadata) {
                         console.log('CHROMA', 'First step done', 'output and background merged');
                         if (err) throw err
-                        im.composite([mask, inter, masked],
+                        im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', mask, inter, masked],
                             function(err, metadata) {
                                 console.log('CHROMA', 'Second step done', 'masking image and output from 1st merged');
                                 if (err) throw err
-                                im.composite([fg, masked, output],
+                                im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', fg, masked, output],
                                     function(err, metadata) {
                                         console.log('CHROMA', 'Final step done', 'foreground applied on top.');
                                         if (err) throw err
-                                        cleanup(key); //cleanup
+                                        // cleanup(key); //cleanup
                                         success(output); //return
                                     });
                             });

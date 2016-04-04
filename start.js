@@ -21,7 +21,8 @@ cluster.on('disconnect', function(worker) {
 });
 
 if (cluster.isMaster) {
-    var workerCount = require('os').cpus().length;
+    // var workerCount = require('os').cpus().length;
+    var workerCount = 4;
 
     console.log('Master cluster setting up ' + workerCount + ' workers...');
     console.log(`Starting ${workerCount} workers...`);

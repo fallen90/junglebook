@@ -22,15 +22,16 @@ if (!fs.existsSync(output_dir)) {
 }
 
 app.set('port', env.NODE_PORT || 3000);
-app.set('ip', env.NODE_IP || 'localhost');
+app.set('ip', env.NODE_IP || '192.168.0.12');
 app.set('view engine', 'jade');
 app.set('views', 'public/views');
 
 app.use('/lib', express.static(__dirname + '/public/lib'));
+app.use('/assets', express.static(__dirname + '/public/assets'));
 app.use('/outputs', express.static(output_dir));
 app.use(busboy());
 
-// app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 //routes
 
@@ -59,17 +60,21 @@ app.post('/file-upload', function(req, res) {
     var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
-
-        var key = db('images').size() + 1;
+        var tmpk = ((db('images').size() + 1) * (new Date().getTime())).toString();
+        var key = tmpk.substring(tmpk.length, tmpk.length/2);
         filename = upload_dir + key + path.extname(filename);
 
         saveToDb(key, filename);
 
+        console.log('EXPRESS', `Received file ${filename}...`);
         fstream = fs.createWriteStream(filename);
         file.pipe(fstream);
 
         fstream.on('close', function() {
-            res.redirect('/download?id=' + key);
+            res.send({
+                download: key,
+                tmpk : tmpk
+            });
             chromakey.create(filename, key, function(file) {
                 console.log('file processed', file);
             }, function(err) {

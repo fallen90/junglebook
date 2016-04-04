@@ -3,33 +3,28 @@
 
 <head>
     <title>Sample</title>
-    <style>
-    #image {
-        width: 400px;
-        height: auto;
-    }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="lib/fastclick/lib/fastclick.js"></script>
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="lib/jquery-form/jquery.form.js"></script>
+    <script src="app.js"></script>
 </head>
 
 <body>
-    <img id="image" />
-    <form method="post" enctype="multipart/form-data" action="/file-upload">
-        <input type="file" name="file" id="file" accept="image/*" capture="camera">
-        <input type="submit">
-    </form>
-    <script>
-    document.getElementById("file").onchange = function() {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("image").src = e.target.result;
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
-    </script>
+    <div class="container">
+        <form action="/file-upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="myfile" accept="image/*;capture=camera">
+            <br>
+            <input type="submit" value="Upload File to Server">
+        </form>
+        <div class="progress">
+            <div class="bar"></div>
+            <div class="percent">0%</div>
+        </div>
+        <div id="status"></div>
+    </div>
 </body>
 
 </html>
