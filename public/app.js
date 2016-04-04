@@ -53,7 +53,7 @@ function checkImage(url, key) {
     var intx = setInterval(function() {
         if (imageExists(url)) {
             clearInterval(intx);
-            $('#downloadImage').slideDown();
+            $('#downloadImage').attr('href', url).slideDown();
             $('#proci').fadeOut();
             $('#print_num').html(key).show();
             setTimeout(function() {
