@@ -1,4 +1,4 @@
-var express = require('express'),
+﻿var express = require('express'),
     app = express(),
     fs = require('fs'),
     busboy = require('connect-busboy'),
@@ -12,7 +12,8 @@ var express = require('express'),
     env = process.env,
     config = require('./chromakey/config'),
     upload_dir = config.currentConfig.uploads,
-    output_dir = config.currentConfig.outputs;
+    output_dir = config.currentConfig.outputs,
+    tmp_dir = config.currentConfig.tmp;
 
 if (!fs.existsSync(upload_dir)) {
     fs.mkdirSync(upload_dir);
@@ -20,9 +21,12 @@ if (!fs.existsSync(upload_dir)) {
 if (!fs.existsSync(output_dir)) {
     fs.mkdirSync(output_dir);
 }
+if (!fs.existsSync(tmp_dir)) {
+    fs.mkdirSync(tmp_dir);
+}
 
 app.set('port', env.NODE_PORT || 3000);
-app.set('ip', env.NODE_IP || '192.168.0.12');
+app.set('ip', env.NODE_IP || '0.0.0.0');
 app.set('view engine', 'jade');
 app.set('views', 'public/views');
 
