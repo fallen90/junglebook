@@ -22,14 +22,17 @@ var init_uploader = function() {
             beforeSend: function() {
                 status.empty();
                 var percentVal = '0%';
-                bar.width(percentVal);
+                percent.width(percentVal);
                 percent.html(percentVal);
                 initial_bench++;
                 console.log("inital", initial_bench, "done", done_bench);
+                $('#submit').slideUp();
+                $('#fileselect').slideUp();
+                $('.progress').slideDown();
             },
             uploadProgress: function(event, position, total, percentComplete) {
                 var percentVal = percentComplete + '%';
-                bar.width(percentVal);
+                percent.width(percentVal);
                 percent.html(percentVal);
                 $('.radial-progress').attr('data-progress', percentComplete)
             },
