@@ -1,5 +1,14 @@
 {
-  "images": [],
+  "images": [
+    {
+      "id": "2082060",
+      "file": "C:\\Users\\Fallen\\Desktop\\junglebook\\chromakey/../public/uploads/2082060.jpg"
+    },
+    {
+      "id": "5161706",
+      "file": "C:\\Users\\Fallen\\Desktop\\junglebook\\chromakey/../public/uploads/5161706.jpg"
+    }
+  ],
   "folders": [
     {
       "id": "0B3zHm_k_51jLWlBUZzVmclJDemc",

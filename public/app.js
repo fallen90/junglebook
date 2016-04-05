@@ -12,7 +12,6 @@ var done_bench = 0;
 
 var init_uploader = function() {
     document.getElementById("fileselect").onchange = function() {
-        alert('select');
         var reader = new FileReader();
         reader.onload = function(e) {
             $('#preview-image').attr('src', e.target.result).parent().show();

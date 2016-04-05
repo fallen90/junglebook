@@ -148,7 +148,7 @@ var createComposite = function(foreground, background, butas, output, smalloutpu
 
     }
 
-    compose(butas, background, foreground, output, smalloutput, 1120, 560, 550, 550);
+    compose(butas, background, foreground, output, smalloutput, 1120, 560, 550, 650);
 }
 
 var initialAlphaMap = function() {
