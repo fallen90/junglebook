@@ -15,6 +15,7 @@
     "imagemagick-composite": "^0.1.2",
     "images": "^2.1.11",
     "jade": "^1.11.0",
+    "jimp": "^0.2.21",
     "lowdb": "^0.12.5",
     "pngjs": "^2.2.0",
     "preen": "^1.2.0"

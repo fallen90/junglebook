@@ -1,5 +1,8 @@
 $(document).ready(function() {
     FastClick.attach(document.body);
+    $('#capture_btn').on('touchend click', function() {
+        $('input[type=file]').trigger('click');
+    });
     init_uploader();
 });
 
@@ -8,13 +11,24 @@ var done_bench = 0;
 
 var init_uploader = function() {
     document.getElementById("fileselect").onchange = function() {
+        alert('select');
         var reader = new FileReader();
         reader.onload = function(e) {
-            // get loaded data and render thumbnail.
-            // document.getElementById("preview-image").src = e.target.result;
-            $('#preview-image').attr('src', e.target.result).show();
+            $('#preview-image').attr('src', e.target.result).parent().show();
+            setTimeout(function() {
+                var img = document.getElementById('preview-image');
+                var width = img.width;
+                var height = img.height;
+                var ratio = width/height;
+                if(ratio > 1){
+                    alert('portrait');
+                } else {
+                    alert('landscape');
+                }
+            });
         }
         reader.readAsDataURL(this.files[0]);
+
 
         $('#submit').fadeIn();
     };
@@ -64,12 +78,13 @@ function checkImage(url, key) {
     var intx = setInterval(function() {
         if (imageExists(url)) {
             clearInterval(intx);
-            $('#downloadImage').attr('href', url).slideDown();
+            $('#downloadImage').attr('href', url).show();
             $('#proci').fadeOut();
             $('#print_num').html(key).show();
+            $('cite').show();
             setTimeout(function() {
 
-                $('#imgdownload').attr('src', url).width('95%');
+                $('#imgdownload').attr('src', url).width('100%').show();
 
             }, 1200);
         }

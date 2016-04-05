@@ -2,9 +2,10 @@
 <html>
 
 <head>
-    <title>Sample</title>
+    <title>Jungle Book</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <script src="lib/fastclick/lib/fastclick.js"></script>
     <script src="lib/jquery/dist/jquery.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -15,8 +16,7 @@
         padding: 0;
         margin: 0;
     }
-    
-    .bg {
+    /*.bg {
         z-index: -1;
         position: absolute;
         top: 0;
@@ -27,7 +27,7 @@
         background-size: cover;
         -webkit-filter: blur(3px);
         filter: blur(3px);
-    }
+    }*/
     
     .navbar-inverse {
         width: 100%;
@@ -35,7 +35,6 @@
     
     img {
         width: 100%;
-        margin-top: 20px;
     }
     
     .progress {
@@ -47,17 +46,21 @@
         color: #fff;
     }
     
+    #print_num {
+        background: #eee;
+        border: 1px solid #ccc;
+    }
+    
     #step2,
     #step3,
     #print_num,
     #submit {
         display: none;
     }
-    
-    [type=file] {
+    /*[type=file] {
         color: white;
         padding: 12px;
-    }
+    }*/
     
     #downloadImage {
         display: none;
@@ -72,34 +75,18 @@
         padding: 12px;
     }
     
-    #preview-image {
+    cite,
+    #imgctnr,
+    #imgdownload {
         display: none;
-        width: 45%;
-        margin: 0 auto;
     }
+
     </style>
     <script>
     </script>
 </head>
 
 <body>
-    <div class="bg"></div>
-    <!-- <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Jungle Book</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               
-            </div>
-        </div>
-    </nav> -->
     <div class="container">
         <img src="/assets/img/logo.png" />
         <div id="step1" class="container">
@@ -107,13 +94,16 @@
                 <b>STEP 1:</b>
                 Capture Image
             </h1>
-            <div style="display:block;width:100%" align="center">
-                <img src="" id="preview-image" />
+            <div href="#" class="thumbnail">
+                <img src="assets/img/logo.png" id="preview-image" />
             </div>
             <form action="/file-upload" method="post" enctype="multipart/form-data">
-                <input type="file" id="fileselect" name="myfile" accept="image/*;capture=camera">
+                <input type="file" id="fileselect" name="file" accept="image/*;" capture="camera">
                 <br>
-                <input type="submit" id="submit" value="Proceed" class="btn btn-block btn-success">
+                <button class="btn btn-block btn-success" id="capture_btn">
+                    <i class="fa fa-camera"></i> Capture
+                </button>
+                <input type="submit" id="submit" value="Proceed" class="btn btn-block btn-primary">
             </form>
         </div>
         <div id="step2" class="container">
@@ -130,9 +120,14 @@
         </div>
         <div id="step3" class="container" align="center">
             <img src="assets/img/loader.gif" id="imgdownload">
-            <p id="proci" style="color:white;">Processing</p>
+            <p id="proci" style="color:#aaa;font-size:18px;margin:20px;">Please wait while we process your image. This might take a while.</p>
             <h2 id="print_num"></h2>
-            <a href="" download class="btn btn-block btn-primary" id="downloadImage">Download Image</a>
+            <cite style="font-size:12px; margin:12px;">Use this number if you want to print the image</cite>
+            <div class="row" style="margin-top:12px">
+                <div class="col-md-12">
+                    <a href="" download class="btn btn-block btn-primary" id="downloadImage">Download Image</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>

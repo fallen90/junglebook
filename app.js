@@ -25,7 +25,7 @@ if (!fs.existsSync(tmp_dir)) {
     fs.mkdirSync(tmp_dir);
 }
 
-app.set('port', env.NODE_PORT || 3000);
+app.set('port', env.NODE_PORT || 80);
 app.set('ip', env.NODE_IP || '0.0.0.0');
 app.set('view engine', 'jade');
 app.set('views', 'public/views');
