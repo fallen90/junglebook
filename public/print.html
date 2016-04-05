@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Jungle Book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="lib/fastclick/lib/fastclick.js"></script>
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="lib/jquery-form/jquery.form.js"></script>
+    <style>
+    #img {
+        display: none;
+    }
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+    <div class="container" style="padding-bottom:50px;">
+        <img src="/assets/img/logo.png" class="img-responsive" style="max-height:100px;" />
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-md-8" style="margin-bottom:25px;">
+                    <div class="input-group">
+                        <input type="text" id="print_id" value="05760650" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button">Print !!</button>
+                        </span>
+                    </div>
+                </div>
+                <br>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="img">
+                    <a href="" download class="thumbnail">
+                        <img src="#" alt="" id="img_print">
+                    </a>
+                    <a class="btn btn-success btn-block" download id="dlbtn">
+                        Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $('[type=button]').on('click', function() {
+            var id = $('#print_id').val();
+            if (imageExists("/outputs/" + id + ".out.png")) {
+                $('.thumbnail').attr('href', "/outputs/" + id + ".out.png");
+                $('.thumbnail > img').attr('src', "/outputs/" + id + ".out.png");
+                $('#dlbtn').attr('href',"/outputs/" + id + ".out.png");
+                $('#img').show();
+            } else {
+                alert("Image not found. Please check the number, and try again.");
+            }
+        });
+        
+    });
+
+    function imageExists(image_url) {
+
+        var http = new XMLHttpRequest();
+
+        http.open('HEAD', image_url, false);
+        http.send();
+
+        return http.status != 404;
+
+    }
+    </script>
+</body>
+
+</html>

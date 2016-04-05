@@ -87,20 +87,20 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="padding-bottom:50px;">
         <img src="/assets/img/logo.png" />
         <div id="step1" class="container">
             <h1>
                 <b>STEP 1:</b>
                 Capture Image
             </h1>
-            <div href="#" class="thumbnail">
+            <div href="#" class="thumbnail" id="imgctnr">
                 <img src="assets/img/logo.png" id="preview-image" />
             </div>
             <form action="/file-upload" method="post" enctype="multipart/form-data">
                 <input type="file" id="fileselect" name="file" accept="image/*;" capture="camera">
                 <br>
-                <button class="btn btn-block btn-success" id="capture_btn">
+                <button type="button" class="btn btn-block btn-success" id="capture_btn">
                     <i class="fa fa-camera"></i> Capture
                 </button>
                 <input type="submit" id="submit" value="Proceed" class="btn btn-block btn-primary">

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     FastClick.attach(document.body);
-    $('#capture_btn').on('touchend click', function() {
+    $('#capture_btn').on('touchend click', function(e) {
+        e.preventDefault();
         $('input[type=file]').trigger('click');
     });
     init_uploader();
@@ -16,15 +17,15 @@ var init_uploader = function() {
         reader.onload = function(e) {
             $('#preview-image').attr('src', e.target.result).parent().show();
             setTimeout(function() {
-                var img = document.getElementById('preview-image');
-                var width = img.width;
-                var height = img.height;
-                var ratio = width/height;
-                if(ratio > 1){
-                    alert('portrait');
-                } else {
-                    alert('landscape');
-                }
+                // var img = document.getElementById('preview-image');
+                // var width = img.width;
+                // var height = img.height;
+                // var ratio = width/height;
+                // if(ratio > 1){
+                //     alert('portrait');
+                // } else {
+                //     alert('landscape');
+                // }
             });
         }
         reader.readAsDataURL(this.files[0]);
