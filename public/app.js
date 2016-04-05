@@ -7,6 +7,17 @@ var initial_bench = 0;
 var done_bench = 0;
 
 var init_uploader = function() {
+    document.getElementById("fileselect").onchange = function() {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // get loaded data and render thumbnail.
+            // document.getElementById("preview-image").src = e.target.result;
+            $('#preview-image').attr('src', e.target.result).show();
+        }
+        reader.readAsDataURL(this.files[0]);
+
+        $('#submit').fadeIn();
+    };
     $(function() {
         $('#clicktest').on('touchstart', function() {
             $('#status').append('<b>Clicked</b><br/>');
@@ -58,7 +69,7 @@ function checkImage(url, key) {
             $('#print_num').html(key).show();
             setTimeout(function() {
 
-                $('#imgdownload').attr('src', url);
+                $('#imgdownload').attr('src', url).width('95%');
 
             }, 1200);
         }

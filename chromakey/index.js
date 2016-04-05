@@ -9,7 +9,9 @@ var fs = require('fs'),
     bg = config.currentConfig.bg,
     mask = config.currentConfig.mask,
     tmp = config.currentConfig.tmp,
-    outputs = config.currentConfig.outputs;
+    outputs = config.currentConfig.outputs,
+    Jimp = require("jimp");
+
 
 if (!fs.existsSync(tmp)) {
     fs.mkdirSync(tmp);
@@ -31,6 +33,7 @@ exports.create = function(inf, key, success, failed) {
 };
 
 var processFile = function(inf, outf, key, success, failed) {
+    var start = (new Date()).getTime();
     var dst = fs.createWriteStream(outf);
     fs.createReadStream(inf)
         .pipe(new PNG({
@@ -70,25 +73,35 @@ var processFile = function(inf, outf, key, success, failed) {
                 var inter = tmp + key + '.inter.png';
                 var masked = tmp + key + '.masked.png';
                 var output = outputs + key + '.out.png';
+                var smalloutput = outputs + key + '.smallout.png';
 
                 //-limit memory 1mb -limit map 2mb
-                im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', '-geometry', '300x250+350+510', outf, bg, inter],
-                    function(err, metadata) {
-                        console.log('CHROMA', 'First step done', 'output and background merged');
-                        if (err) throw err
-                        im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', mask, inter, masked],
-                            function(err, metadata) {
-                                console.log('CHROMA', 'Second step done', 'masking image and output from 1st merged');
-                                if (err) throw err
-                                im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', fg, masked, output],
-                                    function(err, metadata) {
-                                        console.log('CHROMA', 'Final step done', 'foreground applied on top.');
-                                        if (err) throw err
-                                        // cleanup(key); //cleanup
-                                        success(output); //return
-                                    });
-                            });
-                    });
+                // 550x550+1150+670
+                // 550x550+1120+650
+                // im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', '-geometry', '550x550+1025+510', outf, bg, inter],
+                // im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', '-geometry', '550x550+1150+670', outf, bg, inter],
+                // im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', '-geometry', '550x550+1120+650', outf, bg, inter],
+                //     function(err, metadata) {
+                //         console.log('CHROMA', 'First step done', 'output and background merged');
+                //         if (err) throw err
+                //         im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', mask, inter, masked],
+                //             function(err, metadata) {
+                //                 console.log('CHROMA', 'Second step done', 'masking image and output from 1st merged');
+                //                 if (err) throw err
+                //                 im.composite(['-limit', 'memory', '1mb', '-limit', 'map', '2mb', fg, masked, output],
+                //                     function(err, metadata) {
+                //                         console.log('CHROMA', 'Final step done', 'foreground applied on top.');
+                //                         if (err) throw err
+                //                             // cleanup(key); //cleanup
+                //                         success(output); //return
+                //                     });
+                //             });
+                //     });
+
+                createComposite(fg, bg, outf, output, smalloutput);
+                var end = (new Date()).getTime();
+                console.log(start, end, (end - start) / 1000);
+
             });
 
         }, function(err) {
@@ -96,6 +109,47 @@ var processFile = function(inf, outf, key, success, failed) {
             failed(err);
         });
 };
+
+var createComposite = function(foreground, background, butas, output, smalloutput) {
+
+    function compose(src, sbg, sfg, sout, smallOut, x, y, w, h) {
+        var start = (new Date()).getTime();
+        Jimp.read(src, function(err, srcData) {
+            if (err) throw err;
+
+            Jimp.read(sbg, function(err2, bg) {
+                if (err2) throw err2;
+
+                Jimp.read(sfg, function(err3, fg) {
+                    if (err3) throw err3;
+
+                    srcData.resize(w, h);
+
+                    bg.composite(srcData, x, y)
+                        .composite(fg, 0, 0)
+                        .write(sout, function() {
+                            console.log("[COMPOSITE] Large output done");
+
+                            Jimp.read(sout, function(err4, out) {
+                                if (err4) throw err4;
+                                out.resize(600, 400).write(smallOut, function() {
+                                    console.log("[COMPOSITE] Small output done");
+                                    var end = (new Date()).getTime();
+                                    console.log("COMPOSITE",start, end, (end - start) / 1000);
+                                });
+
+                            });
+
+                        });
+                });
+            });
+
+        });
+
+    }
+
+    compose(butas, background, foreground, output, smalloutput, 1120, 560, 550, 550);
+}
 
 var initialAlphaMap = function() {
     var alphaMapArray = [];
