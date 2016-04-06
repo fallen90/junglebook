@@ -122,10 +122,13 @@ var createComposite = function(foreground, background, butas, output, smalloutpu
 
                 Jimp.read(sfg, function(err3, fg) {
                     if (err3) throw err3;
+                    var hScale = srcData.bitmap.height/h;
+                    var newW = hScale*srcData.bitmap.width; 
+                    
+                    var newX = x + w/2 -newW/2;
+                    srcData.resize(newW, h);
 
-                    srcData.resize(w, h);
-
-                    bg.composite(srcData, x, y)
+                    bg.composite(srcData, newX, y)
                         .composite(fg, 0, 0)
                         .write(sout, function() {
                             console.log("[COMPOSITE] Large output done");
