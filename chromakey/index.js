@@ -10,7 +10,8 @@ var fs = require('fs'),
     mask = config.currentConfig.mask,
     tmp = config.currentConfig.tmp,
     outputs = config.currentConfig.outputs,
-    Jimp = require("jimp");
+    Jimp = require("jimp"),
+    images = require("images");
 
 
 if (!fs.existsSync(tmp)) {
@@ -19,6 +20,10 @@ if (!fs.existsSync(tmp)) {
 
 exports.create = function(inf, key, success, failed) {
     console.log('CHROMA', 'Preparing convertion...');
+    // easy(inf,key,success, failed); //old code using imagemagick
+    encode(inf, key, success, failed); //new code using node-images
+};
+var easy = function(inf, key, success, failed) {
     var outf = tmp + key + '.butas.png';
     easyimg.convert({
         src: inf,
@@ -30,7 +35,18 @@ exports.create = function(inf, key, success, failed) {
         console.error('error converting image', err, inf, outf);
         failed(err, inf, outf);
     });
-};
+}
+var encode = function(inf, key, success, failed) {
+    var outf = tmp + key + '.butas.png';
+    var dst = tmp + key + '.jpg.png';
+    Jimp.read(inf, function(err, butas) {
+        if (err) throw err;
+        butas.write(dst, function() {
+            processFile(dst, outf, key, success, failed);
+        });
+    });
+
+}
 
 var processFile = function(inf, outf, key, success, failed) {
     var start = (new Date()).getTime();
@@ -97,10 +113,11 @@ var processFile = function(inf, outf, key, success, failed) {
                 //                     });
                 //             });
                 //     });
-
-                createComposite(fg, bg, outf, output, smalloutput);
                 var end = (new Date()).getTime();
-                console.log(start, end, (end - start) / 1000);
+                console.log("CHROMA", ((end - start) / 1000) + " seconds");
+
+                Composite(fg, bg, outf, output, smalloutput);
+
 
             });
 
@@ -108,6 +125,18 @@ var processFile = function(inf, outf, key, success, failed) {
             console.log('failed to parsed stream', err, "outf", outf, "inf", inf);
             failed(err);
         });
+};
+
+var Composite = function(foreground, background, butas, output, smalloutput) {
+    var start = (new Date()).getTime();
+    images(background)
+        .draw(images(butas).size(470), 1050, 630)
+        .draw(images(foreground), 0, 0)
+        .save(output)
+        .size(800)
+        .save(smalloutput);
+    var end = (new Date()).getTime();
+    console.log("COMPOSITE",((end - start) / 1000) + " seconds");
 };
 
 var createComposite = function(foreground, background, butas, output, smalloutput) {
@@ -122,10 +151,10 @@ var createComposite = function(foreground, background, butas, output, smalloutpu
 
                 Jimp.read(sfg, function(err3, fg) {
                     if (err3) throw err3;
-                    var hScale = srcData.bitmap.height/h;
-                    var newW = hScale*srcData.bitmap.width; 
-                    
-                    var newX = x + w/2 -newW/2;
+                    var hScale = h / srcData.bitmap.height;
+                    var newW = hScale * srcData.bitmap.width;
+
+                    var newX = x + w / 2 - newW / 2;
                     srcData.resize(newW, h);
 
                     bg.composite(srcData, newX, y)
@@ -138,7 +167,7 @@ var createComposite = function(foreground, background, butas, output, smalloutpu
                                 out.resize(600, 400).write(smallOut, function() {
                                     console.log("[COMPOSITE] Small output done");
                                     var end = (new Date()).getTime();
-                                    console.log("COMPOSITE",start, end, (end - start) / 1000);
+                                    console.log("COMPOSITE", start, end, (end - start) / 1000);
                                 });
 
                             });
@@ -151,7 +180,7 @@ var createComposite = function(foreground, background, butas, output, smalloutpu
 
     }
 
-    compose(butas, background, foreground, output, smalloutput, 1120, 560, 550, 650);
+    compose(butas, background, foreground, output, smalloutput, 1050, 700, 470, 470);
 }
 
 var initialAlphaMap = function() {
